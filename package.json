@@ -16,7 +16,9 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
     "fastify": "^4.27.0",
+    "firebase": "^10.12.2",
     "mongoose": "^8.4.0"
   }
 }

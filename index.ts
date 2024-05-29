@@ -3,7 +3,7 @@ import {app} from './src/app';
 async function main(){
     const port = 3000;
     const server = await app(false);
-    await server.listen({port:3333})
+    server.listen({port:port});
 }
 
 
