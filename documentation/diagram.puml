@@ -1,0 +1,101 @@
+@startuml
+
+!define RECTANGLE class
+RECTANGLE User {
+  +id: String
+  +name: String
+  +email: String
+  +password: String
+  +userType: String
+}
+
+RECTANGLE Build {
+  +id: String
+  +title: String
+  +description: String
+  +creatorId: String
+  +skillTree: List<Skill>
+  +earlyGame: BuildLayer
+  +midGame: BuildLayer
+  +endGame: BuildLayer
+  +notes: String
+  +createdAt: Date
+  +updatedAt: Date
+}
+
+RECTANGLE Skill {
+  +id: String
+  +name: String
+  +description: String
+}
+
+RECTANGLE BuildLayer {
+  +equipments: List<Equipment>
+  +stats: Stats
+}
+
+RECTANGLE Equipment {
+  +id: String
+  +name: String
+  +description: String
+  +refinements: String
+  +cards: List<String>
+  +runes: List<String>
+  +enchantments: List<String>
+  +gems: List<String>
+  +obtainMethod: String
+}
+
+RECTANGLE Stats {
+  +STR: int
+  +AGI: int
+  +VIT: int
+  +INT: int
+  +DEX: int
+  +LUK: int
+  +POW: int
+  +STA: int
+  +WIS: int
+  +SPL: int
+  +CON: int
+  +CRT: int
+}
+
+RECTANGLE Comment {
+  +id: String
+  +text: String
+  +authorId: String
+  +buildId: String
+  +createdAt: Date
+  +responses: List<Comment>
+}
+
+RECTANGLE Ranking {
+  +id: String
+  +userId: String
+  +buildId: String
+  +rating: int
+}
+
+RECTANGLE Favorite {
+  +id: String
+  +userId: String
+  +buildId: String
+}
+
+User "1" -- "0..*" Build : creates
+Build "1" -- "0..*" Skill : contains
+Build "1" -- "1" BuildLayer : earlyGame
+Build "1" -- "1" BuildLayer : midGame
+Build "1" -- "1" BuildLayer : endGame
+BuildLayer "1" -- "0..*" Equipment : contains
+BuildLayer "1" -- "1" Stats : has
+Build "1" -- "0..*" Comment : receives
+Comment "0..*" -- "0..*" Comment : responses
+Build "1" -- "0..*" Ranking : receives
+Build "1" -- "0..*" Favorite : receives
+User "0..*" -- "0..*" Comment : writes
+User "0..*" -- "0..*" Ranking : rates
+User "0..*" -- "0..*" Favorite : favorites
+
+@enduml
