@@ -1,9 +1,19 @@
-# Documentação de Casos de Uso
+# Documento de Requisitos do Sistema
 
 ## Índice
 
 1. [Visão Geral](#visão-geral)
-2. [Casos de Uso](#casos-de-uso)
+2. [Requisitos Funcionais](#requisitos-funcionais)
+   1. [Usuários](#usuários)
+   2. [Builds](#builds)
+   3. [Comentários](#comentários)
+   4. [Rankings](#rankings)
+   5. [Favoritos](#favoritos)
+3. [Requisitos Não Funcionais](#requisitos-não-funcionais)
+4. [Modelo de Dados](#modelo-de-dados)
+   1. [Diagrama UML](#diagrama-uml)
+   2. [Esquemas de MongoDB](#esquemas-de-mongodb)
+5. [Casos de Uso](#casos-de-uso)
    1. [UC1: Visualizar Build](#uc1-visualizar-build)
    2. [UC2: Criar Build](#uc2-criar-build)
    3. [UC3: Favoritar Build](#uc3-favoritar-build)
@@ -12,143 +22,167 @@
    6. [UC6: Responder Comentário](#uc6-responder-comentário)
    7. [UC7: Editar Comentário](#uc7-editar-comentário)
    8. [UC8: Deletar Comentário](#uc8-deletar-comentário)
+   9. [UC9: Login](#uc9-login)
+   10. [UC10: Logout](#uc10-logout)
 
 ---
 
 ## Visão Geral
 
-Este documento descreve os principais casos de uso do sistema de compartilhamento de builds de Ragnarok. O objetivo do sistema é permitir que os usuários visualizem, criem, favoritem, rankeiem e comentem builds de forma centralizada e organizada.
-
-## Casos de Uso
-
-### UC1: Visualizar Build
-
-**Ator Principal**: Visualizador, Criador de Builds
-
-**Descrição**: O usuário pode visualizar detalhes de uma build, incluindo árvore de habilidades, equipamentos, status, e anotações.
-
-**Pré-condições**: A build deve existir no sistema.
-
-**Fluxo Principal**:
-1. O usuário acessa a página principal do site.
-2. O usuário procura a build desejada usando a barra de pesquisa ou navegando pelas categorias.
-3. O usuário clica na build para visualizar os detalhes.
-4. O sistema exibe a árvore de habilidades, os equipamentos (organizados por Early, Mid, e End Game), os status necessários e as anotações da build.
-
-**Pós-condições**: O usuário visualiza os detalhes da build.
-
-### UC2: Criar Build
-
-**Ator Principal**: Criador de Builds
-
-**Descrição**: O criador de builds pode criar uma nova build, preenchendo as informações necessárias.
-
-**Pré-condições**: O usuário deve estar autenticado como criador de builds.
-
-**Fluxo Principal**:
-1. O criador de builds faz login no sistema.
-2. O criador de builds acessa a seção de criação de builds.
-3. O criador de builds preenche o título, descrição, árvore de habilidades, equipamentos para cada camada (Early, Mid, End Game), status necessários e anotações.
-4. O criador de builds submete a build.
-5. O sistema salva a build e a disponibiliza para visualização.
-
-**Pós-condições**: A nova build é salva e disponibilizada para visualização.
-
-### UC3: Favoritar Build
-
-**Ator Principal**: Criador de Builds
-
-**Descrição**: O criador de builds pode favoritar uma build para acesso rápido futuro.
-
-**Pré-condições**: O usuário deve estar autenticado.
-
-**Fluxo Principal**:
-1. O usuário faz login no sistema.
-2. O usuário visualiza uma build.
-3. O usuário clica no botão de favoritar.
-4. O sistema salva a build como favorita para o usuário.
-
-**Pós-condições**: A build é marcada como favorita para o usuário.
-
-### UC4: Rankear Build
-
-**Ator Principal**: Criador de Builds
-
-**Descrição**: O criador de builds pode dar uma nota (de 1 a 5 estrelas) para uma build.
-
-**Pré-condições**: O usuário deve estar autenticado.
-
-**Fluxo Principal**:
-1. O usuário faz login no sistema.
-2. O usuário visualiza uma build.
-3. O usuário seleciona uma nota de 1 a 5 estrelas.
-4. O sistema salva a nota dada pelo usuário.
-
-**Pós-condições**: A nota é salva e a build é rankeada.
-
-### UC5: Comentar em Build
-
-**Ator Principal**: Criador de Builds
-
-**Descrição**: O criador de builds pode comentar em uma build.
-
-**Pré-condições**: O usuário deve estar autenticado.
-
-**Fluxo Principal**:
-1. O usuário faz login no sistema.
-2. O usuário visualiza uma build.
-3. O usuário escreve um comentário e o submete.
-4. O sistema salva o comentário associado à build.
-
-**Pós-condições**: O comentário é salvo e exibido na build.
-
-### UC6: Responder Comentário
-
-**Ator Principal**: Criador de Builds
-
-**Descrição**: O criador de builds pode responder a um comentário em uma build.
-
-**Pré-condições**: O usuário deve estar autenticado.
-
-**Fluxo Principal**:
-1. O usuário faz login no sistema.
-2. O usuário visualiza uma build com um comentário.
-3. O usuário escreve uma resposta ao comentário e a submete.
-4. O sistema salva a resposta associada ao comentário original.
-
-**Pós-condições**: A resposta ao comentário é salva e exibida na build.
-
-### UC7: Editar Comentário
-
-**Ator Principal**: Criador de Builds
-
-**Descrição**: O criador de builds pode editar seus próprios comentários.
-
-**Pré-condições**: O usuário deve estar autenticado e ser o autor do comentário.
-
-**Fluxo Principal**:
-1. O usuário faz login no sistema.
-2. O usuário visualiza uma build com seu próprio comentário.
-3. O usuário clica no botão de editar comentário.
-4. O usuário edita o comentário e o submete.
-5. O sistema atualiza o comentário.
-
-**Pós-condições**: O comentário é atualizado.
-
-### UC8: Deletar Comentário
-
-**Ator Principal**: Criador de Builds
-
-**Descrição**: O criador de builds pode deletar seus próprios comentários.
-
-**Pré-condições**: O usuário deve estar autenticado e ser o autor do comentário.
-
-**Fluxo Principal**:
-1. O usuário faz login no sistema.
-2. O usuário visualiza uma build com seu próprio comentário.
-3. O usuário clica no botão de deletar comentário.
-4. O sistema remove o comentário.
-
-**Pós-condições**: O comentário é deletado.
+O sistema de compartilhamento de builds de Ragnarok é uma aplicação web destinada a jogadores que desejam visualizar, publicar, favoritar, rankear e comentar builds de personagens. A aplicação centraliza informações de builds de diferentes servidores, proporcionando uma experiência mais organizada e acessível do que as wikias individuais.
 
 ---
+
+## Requisitos Funcionais
+
+### Usuários
+
+- **RF001**: O sistema deve permitir que usuários visualizem builds sem necessidade de cadastro.
+- **RF002**: O sistema deve permitir que usuários se cadastrem como criadores de builds.
+- **RF003**: O sistema deve permitir que usuários façam login para acessar funcionalidades adicionais (criar builds, favoritar, comentar, rankear).
+- **RF004**: O sistema deve permitir que usuários criadores de builds editem e excluam seus próprios builds.
+- **RF005**: O sistema deve permitir que usuários comentem em builds.
+- **RF006**: O sistema deve permitir que usuários editem e excluam seus próprios comentários.
+- **RF007**: O sistema deve permitir que usuários respondam a comentários.
+- **RF008**: O sistema deve permitir que usuários façam logout do sistema.
+
+### Builds
+
+- **RF009**: O sistema deve permitir que criadores de builds criem novas builds, especificando título, descrição, árvore de habilidades, equipamentos e status para as camadas Early Game, Mid Game e End Game.
+- **RF010**: O sistema deve permitir que criadores de builds adicionem anotações às builds.
+- **RF011**: O sistema deve exibir builds com detalhes organizados por camadas (Early Game, Mid Game, End Game).
+- **RF012**: O sistema deve permitir que builds sejam associadas a um criador específico.
+
+### Comentários
+
+- **RF013**: O sistema deve permitir que usuários façam comentários em builds.
+- **RF014**: O sistema deve permitir que comentários tenham respostas, formando uma conversa.
+
+### Rankings
+
+- **RF015**: O sistema deve permitir que usuários deem uma nota de 1 a 5 estrelas para as builds.
+
+### Favoritos
+
+- **RF016**: O sistema deve permitir que usuários favoritem builds para acesso rápido futuro.
+
+---
+
+## Requisitos Não Funcionais
+
+- **RNF001**: O sistema deve ser responsivo e funcionar em dispositivos móveis e desktops.
+- **RNF002**: O sistema deve garantir a segurança dos dados dos usuários, utilizando criptografia para senhas.
+- **RNF003**: O sistema deve ter alta disponibilidade e ser capaz de lidar com um grande número de acessos simultâneos.
+- **RNF004**: O sistema deve ser escalável, permitindo a adição de novas funcionalidades no futuro.
+- **RNF005**: O sistema deve ter um tempo de resposta rápido, garantindo uma boa experiência do usuário.
+
+---
+
+## Modelo de Dados
+
+### Diagrama UML
+
+```plantuml
+@startuml
+
+!define RECTANGLE class
+
+RECTANGLE User {
+  +id: ObjectId
+  +name: String
+  +email: String
+  +password: String
+  +userType: String // 'viewer' or 'creator'
+}
+
+RECTANGLE Build {
+  +id: ObjectId
+  +title: String
+  +description: String
+  +creatorId: ObjectId
+  +skillTree: List<Skill>
+  +earlyGame: BuildLayer
+  +midGame: BuildLayer
+  +endGame: BuildLayer
+  +notes: String
+  +createdAt: Date
+  +updatedAt: Date
+}
+
+RECTANGLE Skill {
+  +id: ObjectId
+  +name: String
+  +description: String
+}
+
+RECTANGLE BuildLayer {
+  +equipments: List<Equipment>
+  +stats: Stats
+}
+
+RECTANGLE Equipment {
+  +id: ObjectId
+  +name: String
+  +description: String
+  +refinements: String
+  +cards: List<String>
+  +runes: List<String>
+  +enchantments: List<String>
+  +gems: List<String>
+  +obtainMethod: String
+}
+
+RECTANGLE Stats {
+  +STR: int
+  +AGI: int
+  +VIT: int
+  +INT: int
+  +DEX: int
+  +LUK: int
+  +POW: int
+  +STA: int
+  +WIS: int
+  +SPL: int
+  +CON: int
+  +CRT: int
+}
+
+RECTANGLE Comment {
+  +id: ObjectId
+  +text: String
+  +authorId: ObjectId
+  +buildId: ObjectId
+  +createdAt: Date
+  +responses: List<Comment>
+}
+
+RECTANGLE Ranking {
+  +id: ObjectId
+  +userId: ObjectId
+  +buildId: ObjectId
+  +rating: int
+}
+
+RECTANGLE Favorite {
+  +id: ObjectId
+  +userId: ObjectId
+  +buildId: ObjectId
+}
+
+User "1" -- "0..*" Build : creates
+Build "1" -- "0..*" Skill : contains
+Build "1" -- "1" BuildLayer : earlyGame
+Build "1" -- "1" BuildLayer : midGame
+Build "1" -- "1" BuildLayer : endGame
+BuildLayer "1" -- "0..*" Equipment : contains
+BuildLayer "1" -- "1" Stats : has
+Build "1" -- "0..*" Comment : receives
+Comment "0..*" -- "0..*" Comment : responses
+Build "1" -- "0..*" Ranking : receives
+Build "1" -- "0..*" Favorite : receives
+User "0..*" -- "0..*" Comment : writes
+User "0..*" -- "0..*" Ranking : rates
+User "0..*" -- "0..*" Favorite : favorites
+
+@enduml
+```
