@@ -1,0 +1,30 @@
+@startuml
+
+actor "Visualizador Sem Conta" as ViewerWithoutAccount
+actor "Visualizador Logado" as Viewer
+
+
+
+package "CASOS DE USO"{
+    usecase UC1 as "Visualizar Build"
+    usecase UC2 as "Criar Build"
+    usecase UC3 as "Favoritar Build"
+    usecase UC4 as "Rankear Build"
+    usecase UC5 as "Comentar em Build"
+    usecase UC6 as "Responder Comentário"
+    usecase UC7 as "Editar Comentário"
+    usecase UC8 as "Deletar Comentário"
+}
+
+
+ViewerWithoutAccount --> UC1
+Viewer --> UC1
+Viewer --> UC2
+Viewer --> UC3
+Viewer --> UC4
+Viewer --> UC5
+Viewer --> UC6
+Viewer --> UC7
+Viewer --> UC8
+
+@enduml
