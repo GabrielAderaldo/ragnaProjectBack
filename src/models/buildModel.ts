@@ -20,7 +20,6 @@ export interface BuildModel {
     id: string;
     title: string;
     description: string;
-    creatorId: string;
     skillTree: Skill[];
     earlyGame: BuildLayer;
     midGame: BuildLayer;
