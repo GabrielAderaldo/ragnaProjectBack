@@ -1,0 +1,124 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id        String     @id @default(uuid())
+  name      String
+  email     String     @unique
+  builds    Build[]
+  comments  Comment[]
+  rankings  Ranking[]
+  favorites Favorite[]
+}
+
+model Build {
+  id          String       @id @default(uuid())
+  title       String
+  description String
+  creator     User         @relation(fields: [creatorId], references: [id])
+  creatorId   String
+  skillTree   Skill[]
+  earlyGame   BuildLayer?  @relation("EarlyGameBuild", fields: [earlyGameId], references: [id])
+  midGame     BuildLayer?  @relation("MidGameBuild", fields: [midGameId], references: [id])
+  endGame     BuildLayer?  @relation("EndGameBuild", fields: [endGameId], references: [id])
+  earlyGameId String?      @unique
+  midGameId   String?      @unique
+  endGameId   String?      @unique
+  notes       String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  comments    Comment[]
+  rankings    Ranking[]
+  favorites   Favorite[]
+}
+
+model Skill {
+  id          String @id @default(uuid())
+  name        String
+  description String
+  builds      Build[]
+}
+
+model BuildLayer {
+  id            String      @id @default(uuid())
+  equipments    Equipment[]
+  statsId       String?
+  stats         Stats?      @relation(fields: [statsId], references: [id])
+  earlyGameBuild Build?     @relation("EarlyGameBuild")
+  midGameBuild   Build?     @relation("MidGameBuild")
+  endGameBuild   Build?     @relation("EndGameBuild")
+}
+
+model Equipment {
+  id            String   @id @default(uuid())
+  name          String
+  description   String
+  refinements   String
+  cards         String[]
+  runes         String[]
+  enchantments  String[]
+  gems          String[]
+  obtainMethod  String
+  buildLayerId  String?
+  buildLayer    BuildLayer? @relation(fields: [buildLayerId], references: [id])
+}
+
+model Stats {
+  id   String @id @default(uuid())
+  STR  Int
+  AGI  Int
+  VIT  Int
+  INT  Int
+  DEX  Int
+  LUK  Int
+  POW  Int
+  STA  Int
+  WIS  Int
+  SPL  Int
+  CON  Int
+  CRT  Int
+  buildLayers BuildLayer[]
+}
+
+model Comment {
+  id          String    @id @default(uuid())
+  text        String
+  author      User      @relation(fields: [authorId], references: [id])
+  authorId    String
+  build       Build     @relation(fields: [buildId], references: [id])
+  buildId     String
+  createdAt   DateTime  @default(now())
+  responses   Comment[] @relation("CommentResponses")
+  responseTo  Comment?  @relation("CommentResponses", fields: [responseToId], references: [id])
+  responseToId String?
+}
+
+model Ranking {
+  id       String  @id @default(uuid())
+  user     User    @relation(fields: [userId], references: [id])
+  userId   String
+  build    Build   @relation(fields: [buildId], references: [id])
+  buildId  String
+  rating   Int
+}
+
+model Favorite {
+  id       String  @id @default(uuid())
+  user     User    @relation(fields: [userId], references: [id])
+  userId   String
+  build    Build   @relation(fields: [buildId], references: [id])
+  buildId  String
+}
