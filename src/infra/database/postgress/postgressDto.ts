@@ -12,9 +12,9 @@ export const getUserByEmail = async (email:string) => {
     }
 }
 
-export const createUser = async (name:string,email:string) => {
+export const createUser = async (name:string,email:string,id:string) => {
     try{
-        const user = await prisma.user.create({data:{name,email}})
+        const user = await prisma.user.create({data:{name,email,id:id,builds:}})
         return user;
     }catch(err){
         throw err;
